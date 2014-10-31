@@ -2,6 +2,10 @@
 # Cookbook Name:: jenkins-tools
 # Recipe:: plugins
 
+# Flag set to true if plugin is installed or updated and jenkins will be restarted.
+# Pattern from https://tickets.opscode.com/browse/CHEF-2452
+restart_required = false
+
 node['jenkins']['server']['plugins'].each do |plugin|
   if plugin.is_a?(Hash)
     name = plugin['name']
