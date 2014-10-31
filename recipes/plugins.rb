@@ -26,3 +26,7 @@ ruby_block "jenkins_restart_flag" do
   end
   action :nothing
 end
+
+jenkins_command 'restart' do
+  only_if { restart_required }
+end
