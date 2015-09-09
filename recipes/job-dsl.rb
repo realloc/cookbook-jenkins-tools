@@ -15,7 +15,8 @@ template seed_job_xml do
     {
       :repo => node['jenkins']['server']['job-dsl']['repo'],
       :branch => node['jenkins']['server']['job-dsl']['branch'],
-      :targets => node['jenkins']['server']['job-dsl']['targets']
+      :targets => node['jenkins']['server']['job-dsl']['targets'],
+      :credsId => node['jenkins']['server']['job-dsl']['credsId']
     }
   )
 end

@@ -9,6 +9,9 @@
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
         <url><%= @repo %></url>
+        <% if @credsId -%>
+        <credentialsId><%= @credsId %></credentialsId>
+        <% end -%>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -40,4 +43,3 @@
   <publishers/>
   <buildWrappers/>
 </project>
-
