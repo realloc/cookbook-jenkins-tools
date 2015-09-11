@@ -15,9 +15,9 @@ node['jenkins']['server']['users'].each do |user|
   end
 
   jenkins_user name do
-    full_name if full_name
-    email if email
-    password if password
-    public_keys if public_keys
+    full_name full_name if full_name
+    email email if email
+    password password if password
+    public_keys public_keys if public_keys
   end
 end
