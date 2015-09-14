@@ -9,23 +9,28 @@
 # Generate private key or take it from vault
 # Save it to file. maybe.
 # Write it to run_state
-if ( ::File.exists?('/var/lib/jenkins/chef.secret') && ::File.exists?('/var/lib/jenkins/chef.secret.pub') )
-  private_key = IO.read('/var/lib/jenkins/chef.secret')
-  public_key = IO.read('/var/lib/jenkins/chef.secret.pub')
-  node.run_state[:jenkins_private_key] = private_key
-  node.run_state[:jenkins_public_key] = public_key
-else
-  require 'openssl'
-  require 'net/ssh'
-  key = OpenSSL::PKey::RSA.new(2048)
-  private_key = key.to_pem
-  public_key = "#{key.ssh_type} #{[key.to_blob].pack('m0')}"
-  File.write('/var/lib/jenkins/chef.secret', private_key)
-  File.write('/var/lib/jenkins/chef.secret.pub', public_key)
+
+ruby_block 'set jenkins private key' do
+  block do
+    if ( ::File.exists?('/var/lib/jenkins/chef.secret') && ::File.exists?('/var/lib/jenkins/chef.secret.pub') )
+      private_key = IO.read('/var/lib/jenkins/chef.secret')
+      public_key = IO.read('/var/lib/jenkins/chef.secret.pub')
+      node.run_state[:jenkins_private_key] = private_key
+      node.run_state[:jenkins_public_key] = public_key
+    else
+      require 'openssl'
+      require 'net/ssh'
+      key = OpenSSL::PKey::RSA.new(2048)
+      private_key = key.to_pem
+      public_key = "#{key.ssh_type} #{[key.to_blob].pack('m0')}"
+      File.write('/var/lib/jenkins/chef.secret', private_key)
+      File.write('/var/lib/jenkins/chef.secret.pub', public_key)
+    end
+  end
 end
 
 jenkins_user 'admin' do
- public_keys [ public_key ]
+ public_keys lazy {[ node.run_state[:jenkins_public_key] ]}
  password 'q1w2e3r4'
  full_name 'Jenkins Administrator'
 end
