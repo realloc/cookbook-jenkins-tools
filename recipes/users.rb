@@ -3,7 +3,6 @@
 # Recipe:: users
 
 node['jenkins']['server']['users'].each do |user|
-
   if user.is_a?(Hash)
     name = user['username']
     full_name = user['full_name'] if user['full_name']

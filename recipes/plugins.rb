@@ -16,15 +16,15 @@ node['jenkins']['server']['plugins'].each do |plugin|
   end
 
   jenkins_plugin name do
-    action  :install
+    action :install
     version version if version
-    url     url if url
-     notifies :create, "ruby_block[jenkins_restart_flag]", :immediately
+    url url if url
+    notifies :create, 'ruby_block[jenkins_restart_flag]', :immediately
   end
 end
 
 # Is notified only when a 'jenkins_plugin' is installed or updated.
-ruby_block "jenkins_restart_flag" do
+ruby_block 'jenkins_restart_flag' do
   block do
     restart_required = true
   end

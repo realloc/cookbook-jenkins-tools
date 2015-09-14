@@ -8,8 +8,8 @@
 
 ruby_block 'set jenkins private key' do
   block do
-    if ( ::File.exists?("#{node['jenkins']['security']['chef_key_path']}/chef.secret") &&
-         ::File.exists?("#{node['jenkins']['security']['chef_key_path']}/chef.secret.pub") )
+    if  ::File.exist?("#{node['jenkins']['security']['chef_key_path']}/chef.secret") &&
+        ::File.exist?("#{node['jenkins']['security']['chef_key_path']}/chef.secret.pub")
       private_key = IO.read("#{node['jenkins']['security']['chef_key_path']}/chef.secret")
       public_key = IO.read("#{node['jenkins']['security']['chef_key_path']}/chef.secret.pub")
       node.run_state[:jenkins_private_key] = private_key
@@ -29,9 +29,9 @@ ruby_block 'set jenkins private key' do
 end
 
 jenkins_user 'admin' do
- public_keys lazy {[ node.run_state[:jenkins_public_key] ]}
- password node['jenkins']['security']['admin_passwd']
- full_name 'Jenkins Administrator'
+  public_keys lazy { [node.run_state[:jenkins_public_key]] }
+  password node['jenkins']['security']['admin_passwd']
+  full_name 'Jenkins Administrator'
 end
 
 jenkins_script 'configure permissions' do
