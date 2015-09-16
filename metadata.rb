@@ -5,5 +5,7 @@ license          'Apache 2.0'
 description      'Adds usefull wrappers around jenkins cookbook resources.'
 long_description 'Adds usefull wrappers around jenkins cookbook resources.'
 version          '0.0.1'
+source_url       'https://github.com/realloc/cookbook-jenkins-tools'
+issues_url       'https://github.com/realloc/cookbook-jenkins-tools/issues'
 
 depends 'jenkins',   '> 2.2.0'
